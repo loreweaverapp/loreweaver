@@ -98,12 +98,13 @@ const config = {
         // React-specific configuration
         {
             files: ["*.jsx", "*.tsx"],
-            extends: ["airbnb", "airbnb/hooks"],
+            extends: ["airbnb", "airbnb/hooks", "next/core-web-vitals"],
             rules: {
                 // eslint-plugin-react
                 "react/destructuring-assignment": "off",
                 "react/jsx-props-no-spreading": "off",
                 "react/require-default-props": "off",
+                "react/react-in-jsx-scope": "off",
             },
         },
         // React + Typescript-specific configuration
@@ -111,7 +112,7 @@ const config = {
             files: ["*.tsx"],
             extends: ["airbnb-typescript"],
         },
-        // Global override
+        // Global override to ensure Prettier is the highest priority
         {
             files: ["*"],
             extends: ["plugin:prettier/recommended"],
