@@ -7,13 +7,13 @@
  * need to use are documented accordingly near the end.
  */
 
-import { experimental_createServerActionHandler } from "@trpc/next/app-dir/server";
-import { initTRPC } from "@trpc/server";
-import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
-import { headers } from "next/headers";
+import {experimental_createServerActionHandler} from "@trpc/next/app-dir/server";
+import {initTRPC} from "@trpc/server";
+import {type FetchCreateContextFnOptions} from "@trpc/server/adapters/fetch";
+import {headers} from "next/headers";
 import superjson from "superjson";
-import { ZodError } from "zod";
-import { prisma } from "$/server/db";
+import {ZodError} from "zod";
+import {prisma} from "$/server/db";
 
 /**
  * 1. CONTEXT
@@ -24,7 +24,7 @@ import { prisma } from "$/server/db";
  */
 
 type CreateContextOptions = {
-  headers: Headers;
+    headers: Headers;
 };
 
 /**
@@ -38,10 +38,10 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
-  return {
-    headers: opts.headers,
-    prisma,
-  };
+    return {
+        headers: opts.headers,
+        prisma,
+    };
 };
 
 /**
@@ -51,11 +51,11 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
-  // Fetch stuff that depends on the request
+    // Fetch stuff that depends on the request
 
-  return createInnerTRPCContext({
-    headers: opts.req.headers,
-  });
+    return createInnerTRPCContext({
+        headers: opts.req.headers,
+    });
 };
 
 /**
@@ -67,17 +67,16 @@ export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
  */
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
+    transformer: superjson,
+    errorFormatter({shape, error}) {
+        return {
+            ...shape,
+            data: {
+                ...shape.data,
+                zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+            },
+        };
+    },
 });
 
 /**
@@ -85,12 +84,12 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  * reusable procedure builders.
  */
 export const createAction = experimental_createServerActionHandler(t, {
-  createContext() {
-    const ctx = createInnerTRPCContext({
-      headers: headers(),
-    });
-    return ctx;
-  },
+    createContext() {
+        const ctx = createInnerTRPCContext({
+            headers: headers(),
+        });
+        return ctx;
+    },
 });
 
 /**
