@@ -1,6 +1,7 @@
 import "$/styles/globals.css";
 import {Inter} from "next/font/google";
 import {twMerge} from "tailwind-merge";
+import {ClerkProvider} from "@clerk/nextjs";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -15,8 +16,10 @@ export const metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
     return (
-        <html lang="en">
-            <body className={twMerge("bg-background font-sans text-foreground", inter.variable)}>{children}</body>
-        </html>
+        <ClerkProvider>
+            <html lang="en">
+                <body className={twMerge("bg-background font-sans text-foreground", inter.variable)}>{children}</body>
+            </html>
+        </ClerkProvider>
     );
 }
