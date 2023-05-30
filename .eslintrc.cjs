@@ -10,39 +10,6 @@ const config = {
         project: path.join(__dirname, "tsconfig.json"),
     },
     plugins: ["@typescript-eslint"],
-    rules: {
-        // Built-in
-        "class-methods-use-this": "off",
-        "no-console": "off",
-        "no-empty-function": "off",
-        "no-nested-ternary": "off",
-        "no-param-reassign": "off",
-        "no-underscore-dangle": "off",
-        "no-void": "off",
-        // eslint-plugin-import
-        "import/extensions": "off",
-        "import/no-cycle": "off",
-        "import/no-extraneous-dependencies": [
-            "error",
-            {
-                devDependencies: [
-                    "**/*.test.ts",
-                    "**/*.spec.ts",
-                    "**/*.int-spec.ts",
-                    "**/*.e2e-spec.ts",
-                    "**/jest.config.*",
-                    "**/next.config.js",
-                ],
-            },
-        ],
-        "import/prefer-default-export": "off",
-        "import/order": [
-            "error",
-            {
-                groups: ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
-            },
-        ],
-    },
     overrides: [
         // Typescript-specific configuration
         {
@@ -116,6 +83,39 @@ const config = {
         {
             files: ["*"],
             extends: ["plugin:prettier/recommended"],
+            rules: {
+                // Built-in
+                "class-methods-use-this": "off",
+                "no-console": "off",
+                "no-empty-function": "off",
+                "no-nested-ternary": "off",
+                "no-param-reassign": "off",
+                "no-underscore-dangle": "off",
+                "no-void": "off",
+                // eslint-plugin-import
+                "import/extensions": "off",
+                "import/no-cycle": "off",
+                "import/no-extraneous-dependencies": [
+                    "error",
+                    {
+                        devDependencies: [
+                            "**/*.test.ts",
+                            "**/*.spec.ts",
+                            "**/*.int-spec.ts",
+                            "**/*.e2e-spec.ts",
+                            "**/jest.config.*",
+                            "**/next.config.js",
+                        ],
+                    },
+                ],
+                "import/prefer-default-export": "off",
+                "import/order": [
+                    "error",
+                    {
+                        groups: ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+                    },
+                ],
+            }
         },
     ],
 };
