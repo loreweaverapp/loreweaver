@@ -1,6 +1,6 @@
 /** @type {import("prettier").Config} */
 const config = {
-    printWidth: 120,
+    printWidth: 80,
     tabWidth: 4,
     useTabs: false,
     semi: true,
@@ -12,7 +12,10 @@ const config = {
     bracketSameLine: false,
     arrowParens: "always",
     endOfLine: "lf",
-    plugins: [require.resolve("prettier-plugin-prisma"), require.resolve("prettier-plugin-tailwindcss")],
+    plugins: [
+        require.resolve("prettier-plugin-prisma"),
+        require.resolve("prettier-plugin-tailwindcss"),
+    ],
     overrides: [
         {
             files: "**/*.prisma",
