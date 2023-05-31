@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import * as procs from "$/server/api/routers/post";
+import * as procs from "$/server/api/routers/post/post.router";
 import {createAction, publicProcedure} from "$/server/api/trpc";
 
 /** You can import procedures from your api router. */
