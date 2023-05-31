@@ -26,7 +26,10 @@ const config = {
             rules: {
                 "@typescript-eslint/ban-ts-comment": "off",
                 "@typescript-eslint/ban-types": "off",
-                "@typescript-eslint/no-empty-function": ["error", {allow: ["constructors"]}],
+                "@typescript-eslint/no-empty-function": [
+                    "error",
+                    {allow: ["constructors"]},
+                ],
                 "@typescript-eslint/no-unsafe-assignment": "off",
                 "@typescript-eslint/no-unsafe-call": "off",
                 "@typescript-eslint/no-unsafe-member-access": "off",
@@ -42,7 +45,10 @@ const config = {
                         fixStyle: "inline-type-imports",
                     },
                 ],
-                "@typescript-eslint/no-unused-vars": ["warn", {argsIgnorePattern: "^_"}],
+                "@typescript-eslint/no-unused-vars": [
+                    "warn",
+                    {argsIgnorePattern: "^_"},
+                ],
                 "@typescript-eslint/no-misused-promises": [
                     2,
                     {
@@ -112,10 +118,19 @@ const config = {
                 "import/order": [
                     "error",
                     {
-                        groups: ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+                        groups: [
+                            "builtin",
+                            "external",
+                            "internal",
+                            "parent",
+                            "sibling",
+                            "index",
+                            "object",
+                            "type",
+                        ],
                     },
                 ],
-            }
+            },
         },
     ],
 };

@@ -12,7 +12,10 @@ const config = {
     bracketSameLine: false,
     arrowParens: "always",
     endOfLine: "lf",
-    plugins: [require.resolve("prettier-plugin-prisma"), require.resolve("prettier-plugin-tailwindcss")],
+    plugins: [
+        require.resolve("prettier-plugin-prisma"),
+        require.resolve("prettier-plugin-tailwindcss"),
+    ],
     overrides: [
         {
             files: "**/*.prisma",

@@ -18,7 +18,14 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     return (
         <ClerkProvider>
             <html lang="en">
-                <body className={twMerge("bg-background font-sans text-foreground", inter.variable)}>{children}</body>
+                <body
+                    className={twMerge(
+                        "bg-background font-sans text-foreground",
+                        inter.variable,
+                    )}
+                >
+                    {children}
+                </body>
             </html>
         </ClerkProvider>
     );
