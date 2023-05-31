@@ -36,7 +36,6 @@
     },
     "dependencies": {
         "@clerk/nextjs": "^4.19.0",
-        "@prisma/client": "^4.14.1",
         "@t3-oss/env-nextjs": "^0.3.1",
         "@tanstack/react-query": "^4.29.7",
         "@trpc/client": "^10.27.1",
@@ -73,10 +72,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "postcss": "^8.4.21",
         "prettier": "^2.8.8",
-        "prettier-plugin-prisma": "^4.13.0",
         "prettier-plugin-tailwindcss": "^0.2.8",
-        "prisma": "^4.14.1",
-        "prisma-merge": "^0.2.0",
         "typescript": "^5.0.4"
     },
     "ct3aMetadata": {
