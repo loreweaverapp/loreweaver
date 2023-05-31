@@ -1,5 +1,3 @@
-//******** AUTO GENERATED FILE, DO NOT EDIT.  *********
-
 datasource db {
     provider     = "mysql"
     url          = env("DATABASE_URL")
@@ -9,11 +7,4 @@ datasource db {
 generator client {
     provider        = "prisma-client-js"
     previewFeatures = ["jsonProtocol"]
-}
-
-model Post {
-    id        String   @id @default(uuid())
-    text      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }
