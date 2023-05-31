@@ -28,20 +28,19 @@
     "scripts": {
         "build": "next build",
         "dev": "next dev",
-        "postinstall": "pnpm run prisma:merge && pnpm run prisma:format && prisma generate",
         "lint": "next lint",
-        "start": "next start",
-        "prisma:merge": "prisma-merge -b prisma/base.prisma -e prisma/schema.prisma -o prisma/schema.prisma -s src/**/*.prisma",
-        "prisma:format": "prettier --write **/*.prisma"
+        "start": "next start"
     },
     "dependencies": {
         "@clerk/nextjs": "^4.19.0",
+        "@planetscale/database": "^1.7.0",
         "@t3-oss/env-nextjs": "^0.3.1",
         "@tanstack/react-query": "^4.29.7",
         "@trpc/client": "^10.27.1",
         "@trpc/next": "^10.27.1",
         "@trpc/react-query": "^10.27.1",
         "@trpc/server": "^10.27.1",
+        "drizzle-orm": "^0.26.3",
         "next": "^13.4.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
@@ -59,6 +58,7 @@
         "@typescript-eslint/eslint-plugin": "^5.59.6",
         "@typescript-eslint/parser": "^5.59.6",
         "autoprefixer": "^10.4.14",
+        "drizzle-kit": "^0.18.1",
         "eslint": "^8.40.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-airbnb-typescript": "^17.0.0",
