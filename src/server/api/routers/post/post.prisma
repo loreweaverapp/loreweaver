@@ -1,6 +1,0 @@
-model Post {
-    id        String   @id @default(uuid())
-    text      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}

@@ -12,18 +12,7 @@ const config = {
     bracketSameLine: false,
     arrowParens: "always",
     endOfLine: "lf",
-    plugins: [
-        require.resolve("prettier-plugin-prisma"),
-        require.resolve("prettier-plugin-tailwindcss"),
-    ],
-    overrides: [
-        {
-            files: "**/*.prisma",
-            options: {
-                parser: "prisma-parse",
-            },
-        },
-    ],
+    plugins: [require.resolve("prettier-plugin-tailwindcss")],
 };
 
 module.exports = config;
