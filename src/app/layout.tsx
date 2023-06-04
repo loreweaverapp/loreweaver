@@ -2,7 +2,6 @@ import "$/styles/globals.css";
 import {Lato} from "next/font/google";
 import {twMerge} from "tailwind-merge";
 import {ClerkProvider} from "@clerk/nextjs";
-import CurrentUser from "$/app/CurrentUser";
 
 const lato = Lato({
     subsets: ["latin-ext"],
@@ -28,7 +27,6 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                         lato.variable,
                     )}
                 >
-                    <CurrentUser />
                     {children}
                 </body>
             </html>
