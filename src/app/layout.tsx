@@ -1,10 +1,13 @@
 import "$/styles/globals.css";
-import {Inter} from "next/font/google";
+import {Lato} from "next/font/google";
 import {twMerge} from "tailwind-merge";
 import {ClerkProvider} from "@clerk/nextjs";
 
-const inter = Inter({
-    subsets: ["latin"],
+const lato = Lato({
+    subsets: ["latin-ext"],
+    display: "swap",
+    style: "normal",
+    weight: ["400", "700"],
     variable: "--font-sans",
 });
 
@@ -21,7 +24,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 <body
                     className={twMerge(
                         "bg-background font-sans text-foreground",
-                        inter.variable,
+                        lato.variable,
                     )}
                 >
                     {children}
