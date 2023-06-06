@@ -2,7 +2,7 @@ import "$/styles/globals.css";
 import {Lato} from "next/font/google";
 import {twMerge} from "tailwind-merge";
 import {ClerkProvider} from "@clerk/nextjs";
-import CurrentUser from "$/app/CurrentUser";
+import CurrentUser from "./CurrentUser";
 
 const lato = Lato({
     subsets: ["latin-ext"],

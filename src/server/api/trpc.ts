@@ -8,12 +8,29 @@
  */
 
 import {experimental_createServerActionHandler} from "@trpc/next/app-dir/server";
-import {initTRPC} from "@trpc/server";
-import {type FetchCreateContextFnOptions} from "@trpc/server/adapters/fetch";
+import {initTRPC, TRPCError} from "@trpc/server";
 import {headers} from "next/headers";
 import superjson from "superjson";
 import {ZodError} from "zod";
-import {db} from "$/server/db";
+import {getAuth, signedOutAuthObject} from "@clerk/nextjs/server";
+import {type PlanetScaleDatabase} from "drizzle-orm/planetscale-serverless";
+import {NextRequest} from "next/server";
+import {db as database} from "$/server/db";
+import type {AuthObject} from "@clerk/nextjs/server";
+import type {RequestLike} from "@clerk/nextjs/dist/types/server/types";
+import type {FetchCreateContextFnOptions} from "@trpc/server/adapters/fetch";
+import type {SecretKeyOrApiKey} from "@clerk/types";
+
+type GetAuthOpts = Partial<SecretKeyOrApiKey>;
+
+function createAuthObject(req?: RequestLike | Request, opts?: GetAuthOpts) {
+    if (req) {
+        const request = req instanceof Request ? new NextRequest(req) : req;
+        return getAuth(request, opts);
+    }
+
+    return signedOutAuthObject();
+}
 
 /**
  * 1. CONTEXT
@@ -25,6 +42,8 @@ import {db} from "$/server/db";
 
 type CreateContextOptions = {
     headers: Headers;
+    db?: PlanetScaleDatabase;
+    auth?: AuthObject;
 };
 
 /**
@@ -40,7 +59,8 @@ type CreateContextOptions = {
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
     return {
         headers: opts.headers,
-        db,
+        db: opts.db ?? database,
+        auth: opts.auth ?? createAuthObject(),
     };
 };
 
@@ -55,6 +75,8 @@ export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
 
     return createInnerTRPCContext({
         headers: opts.req.headers,
+        db: database,
+        auth: createAuthObject(opts.req),
     });
 };
 
@@ -90,9 +112,22 @@ export const createAction = experimental_createServerActionHandler(t, {
     createContext() {
         const ctx = createInnerTRPCContext({
             headers: headers(),
+            db: database,
         });
         return ctx;
     },
+});
+
+const isAuthed = t.middleware(({next, ctx}) => {
+    if (!ctx.auth.userId) {
+        throw new TRPCError({code: "UNAUTHORIZED"});
+    }
+
+    return next({
+        ctx: {
+            auth: ctx.auth,
+        },
+    });
 });
 
 /**
@@ -117,3 +152,5 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+export const protectedProcedure = t.procedure.use(isAuthed);

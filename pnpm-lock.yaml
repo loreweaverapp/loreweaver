@@ -51,6 +51,9 @@ dependencies:
     version: 3.21.4
 
 devDependencies:
+  '@clerk/types':
+    specifier: ^3.40.0
+    version: 3.40.0
   '@types/eslint':
     specifier: ^8.37.0
     version: 8.37.0
@@ -212,7 +215,6 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       csstype: 3.1.1
-    dev: false
 
   /@esbuild/android-arm@0.15.18:
     resolution: {integrity: sha512-5GT+kcs2WVGjVs7+boataCkO5Fg0y4kCjzkB5bAip7H4jfnOS3dA6KPiww9W1OEKTKeAcUVhdZGvgI65OXmUnw==}
@@ -1216,7 +1218,6 @@ packages:
 
   /csstype@3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: false
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
