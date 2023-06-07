@@ -1,0 +1,27 @@
+//******** AUTO GENERATED FILE, DO NOT EDIT.  *********
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["jsonProtocol"]
+}
+
+enum UserRole {
+    USER
+    ADMIN
+}
+
+model UserProfile {
+    id          String   @id @db.VarChar(36)
+    userId      String   @unique @db.VarChar(64) // Probably only 32, but just to be safe
+    updatedAt   DateTime
+    role        UserRole @default(USER)
+    displayName String?  @db.VarChar(64)
+    bio         String?  @db.Text
+    status      String?  @db.TinyText
+}

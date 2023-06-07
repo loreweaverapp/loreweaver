@@ -26,21 +26,26 @@
         "writing"
     ],
     "scripts": {
+        "postinstall": "pnpm run prisma:merge && pnpm run prisma:format && pnpm run prisma:gen",
         "build": "next build",
         "dev": "next dev",
         "lint": "next lint",
-        "start": "next start"
+        "start": "next start",
+        "prisma:merge": "prisma-merge -b prisma/base.prisma -e **/schema.prisma -o prisma/schema.prisma -s src/**/*.prisma",
+        "prisma:format": "prettier --write **/*.prisma",
+        "prisma:gen": "prisma generate",
+        "prisma:studio": "prisma studio"
     },
     "dependencies": {
+        "@clerk/clerk-sdk-node": "^4.10.3",
         "@clerk/nextjs": "^4.19.0",
-        "@planetscale/database": "^1.7.0",
+        "@prisma/client": "^4.15.0",
         "@t3-oss/env-nextjs": "^0.3.1",
         "@tanstack/react-query": "^4.29.7",
         "@trpc/client": "^10.27.1",
         "@trpc/next": "^10.27.1",
         "@trpc/react-query": "^10.27.1",
         "@trpc/server": "^10.27.1",
-        "drizzle-orm": "^0.26.3",
         "next": "^13.4.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
@@ -59,7 +64,6 @@
         "@typescript-eslint/eslint-plugin": "^5.59.6",
         "@typescript-eslint/parser": "^5.59.6",
         "autoprefixer": "^10.4.14",
-        "drizzle-kit": "^0.18.1",
         "eslint": "^8.40.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-airbnb-typescript": "^17.0.0",
@@ -73,8 +77,12 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "postcss": "^8.4.21",
         "prettier": "^2.8.8",
+        "prettier-plugin-prisma": "^4.13.0",
         "prettier-plugin-tailwindcss": "^0.2.8",
-        "typescript": "^5.0.4"
+        "prisma": "^4.15.0",
+        "prisma-merge": "^0.2.0",
+        "typescript": "^5.0.4",
+        "zod-prisma": "^0.5.4"
     },
     "ct3aMetadata": {
         "initVersion": "7.13.2-beta.ca0b017"

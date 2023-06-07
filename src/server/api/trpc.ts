@@ -13,9 +13,9 @@ import {headers} from "next/headers";
 import superjson from "superjson";
 import {ZodError} from "zod";
 import {getAuth, signedOutAuthObject} from "@clerk/nextjs/server";
-import {type PlanetScaleDatabase} from "drizzle-orm/planetscale-serverless";
 import {NextRequest} from "next/server";
-import {db as database} from "$/server/db";
+import {type PrismaClient} from "@prisma/client";
+import {prisma as globalPrisma} from "../db";
 import type {AuthObject} from "@clerk/nextjs/server";
 import type {RequestLike} from "@clerk/nextjs/dist/types/server/types";
 import type {FetchCreateContextFnOptions} from "@trpc/server/adapters/fetch";
@@ -42,7 +42,7 @@ function createAuthObject(req?: RequestLike | Request, opts?: GetAuthOpts) {
 
 type CreateContextOptions = {
     headers: Headers;
-    db?: PlanetScaleDatabase;
+    prisma?: PrismaClient;
     auth?: AuthObject;
 };
 
@@ -59,7 +59,7 @@ type CreateContextOptions = {
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
     return {
         headers: opts.headers,
-        db: opts.db ?? database,
+        prisma: opts.prisma ?? globalPrisma,
         auth: opts.auth ?? createAuthObject(),
     };
 };
@@ -75,7 +75,7 @@ export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
 
     return createInnerTRPCContext({
         headers: opts.req.headers,
-        db: database,
+        prisma: globalPrisma,
         auth: createAuthObject(opts.req),
     });
 };
@@ -112,7 +112,7 @@ export const createAction = experimental_createServerActionHandler(t, {
     createContext() {
         const ctx = createInnerTRPCContext({
             headers: headers(),
-            db: database,
+            prisma: globalPrisma,
         });
         return ctx;
     },
