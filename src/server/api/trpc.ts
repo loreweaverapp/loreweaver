@@ -9,12 +9,13 @@
 
 import {experimental_createServerActionHandler} from "@trpc/next/app-dir/server";
 import {initTRPC, TRPCError} from "@trpc/server";
-import {headers} from "next/headers";
+import {cookies, headers} from "next/headers";
 import superjson from "superjson";
 import {ZodError} from "zod";
 import {getAuth, signedOutAuthObject} from "@clerk/nextjs/server";
 import {NextRequest} from "next/server";
 import {type PrismaClient} from "@prisma/client";
+import {auth} from "@clerk/nextjs";
 import {prisma as globalPrisma} from "../db";
 import type {AuthObject} from "@clerk/nextjs/server";
 import type {RequestLike} from "@clerk/nextjs/dist/types/server/types";
@@ -113,6 +114,7 @@ export const createAction = experimental_createServerActionHandler(t, {
         const ctx = createInnerTRPCContext({
             headers: headers(),
             prisma: globalPrisma,
+            auth: auth(),
         });
         return ctx;
     },
