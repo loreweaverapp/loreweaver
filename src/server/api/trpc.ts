@@ -73,7 +73,7 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
     // Fetch stuff that depends on the request
-
+    console.log("createTRPCConext userId", createAuthObject(opts.req).userId);
     return createInnerTRPCContext({
         headers: opts.req.headers,
         prisma: globalPrisma,
@@ -111,6 +111,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createAction = experimental_createServerActionHandler(t, {
     createContext() {
+        console.log("Server action userId", auth().userId);
         const ctx = createInnerTRPCContext({
             headers: headers(),
             prisma: globalPrisma,

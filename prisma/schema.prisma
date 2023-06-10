@@ -19,6 +19,7 @@ enum UserRole {
 model UserProfile {
     id          String   @id @db.VarChar(36)
     userId      String   @unique @db.VarChar(64) // Probably only 32, but just to be safe
+    username    String   @unique @db.VarChar(64)
     updatedAt   DateTime
     role        UserRole @default(USER)
     displayName String?  @db.VarChar(64)

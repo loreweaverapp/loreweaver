@@ -39,19 +39,27 @@
     "dependencies": {
         "@clerk/clerk-sdk-node": "^4.10.3",
         "@clerk/nextjs": "^4.19.0",
+        "@hookform/resolvers": "^3.1.0",
         "@prisma/client": "^4.15.0",
+        "@radix-ui/react-slot": "^1.0.2",
         "@t3-oss/env-nextjs": "^0.3.1",
-        "@tanstack/react-query": "^4.29.7",
+        "@tabler/icons": "^2.22.0",
+        "@tanstack/react-query": "5.0.0-alpha.58",
         "@trpc/client": "^10.27.1",
         "@trpc/next": "^10.27.1",
         "@trpc/react-query": "^10.27.1",
         "@trpc/server": "^10.27.1",
+        "class-variance-authority": "^0.6.0",
+        "clsx": "^1.2.1",
         "next": "^13.4.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "react-hook-form": "^7.44.3",
+        "sharp": "^0.32.1",
         "superjson": "1.12.2",
         "tailwind-merge": "^1.12.0",
         "tailwindcss": "^3.3.2",
+        "tailwindcss-animate": "^1.0.5",
         "zod": "^3.21.4"
     },
     "devDependencies": {
@@ -81,8 +89,7 @@
         "prettier-plugin-tailwindcss": "^0.2.8",
         "prisma": "^4.15.0",
         "prisma-merge": "^0.2.0",
-        "typescript": "^5.0.4",
-        "zod-prisma": "^0.5.4"
+        "typescript": "^5.0.4"
     },
     "ct3aMetadata": {
         "initVersion": "7.13.2-beta.ca0b017"
