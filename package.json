@@ -63,6 +63,7 @@
         "zod": "^3.21.4"
     },
     "devDependencies": {
+        "@clerk/backend": "^0.22.0",
         "@clerk/types": "^3.40.0",
         "@types/eslint": "^8.37.0",
         "@types/node": "^18.16.0",

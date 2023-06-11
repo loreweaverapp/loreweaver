@@ -4,8 +4,7 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useAuth} from "@clerk/nextjs";
-import {api} from "../../../trpc/client";
-import {trpc} from "../../../lib/trpc";
+import {trpc} from "$/lib/trpc";
 
 const formSchema = z.object({
     displayName: z.string().max(64).optional(),
@@ -13,7 +12,7 @@ const formSchema = z.object({
 });
 
 export function FinishSignUpForm() {
-    const {handleSubmit} = useForm<z.infer<typeof formSchema>>({
+    const {handleSubmit, register} = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             displayName: "",
@@ -23,23 +22,31 @@ export function FinishSignUpForm() {
 
     const {userId} = useAuth();
 
-    const mutation = trpc.useMutation();
+    const {mutate} = trpc.userProfile.update.useMutation();
+
+    if (!userId) {
+        return null;
+    }
 
     return (
         <form
-            action={() =>
-                handleSubmit((values) => {
-                    void updateUserProfile({
-                        userProfile: {
-                            userId,
-                        },
-                        data: values,
-                    });
-                })
-            }
+            onSubmit={handleSubmit((values) =>
+                mutate({
+                    userProfile: {userId},
+                    data: {
+                        ...values,
+                    },
+                }),
+            )}
         >
-            <input placeholder={placeholderDisplayName} />
-            <textarea placeholder={placeholderBio} />
+            <input
+                placeholder="Enter your display name"
+                {...register("displayName", {max: 64, required: false})}
+            />
+            <textarea
+                placeholder="Tell the world a bit about yourself"
+                {...register("bio", {max: 256, required: false})}
+            />
         </form>
     );
 }

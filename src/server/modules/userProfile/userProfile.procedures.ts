@@ -1,4 +1,5 @@
 import {TRPCError} from "@trpc/server";
+import clerk from "@clerk/clerk-sdk-node";
 import {protectedProcedure, publicProcedure} from "../../api/trpc";
 import {prisma} from "../../db";
 import {
@@ -15,7 +16,20 @@ export const createUserProfile = protectedProcedure
             throw new TRPCError({code: "FORBIDDEN"});
         }
 
-        return prisma.userProfile.create({data: input});
+        const {hasProfile} = ctx.auth.user!.privateMetadata;
+        if (hasProfile) {
+            throw new TRPCError({code: "BAD_REQUEST"});
+        }
+
+        return prisma.$transaction(async (tx) => {
+            const userProfile = await tx.userProfile.create({data: input});
+            await clerk.users.updateUserMetadata(userProfile.userId, {
+                privateMetadata: {
+                    hasProfile: true,
+                },
+            });
+            return userProfile;
+        });
     });
 
 export const getUserProfile = publicProcedure

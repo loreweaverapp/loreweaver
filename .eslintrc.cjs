@@ -55,6 +55,7 @@ const config = {
                         checksVoidReturn: {attributes: false},
                     },
                 ],
+                "@typescript-eslint/no-non-null-assertion": "off",
             },
             settings: {
                 "import/parsers": {
