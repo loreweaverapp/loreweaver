@@ -13,9 +13,10 @@ const config = {
     arrowParens: "always",
     endOfLine: "lf",
     plugins: [
-        require.resolve("prettier-plugin-tailwindcss"),
         require.resolve("prettier-plugin-prisma"),
+        require.resolve("prettier-plugin-tailwindcss"),
     ],
+    pluginSearchDirs: false,
     overrides: [
         {
             files: "**/*.prisma",

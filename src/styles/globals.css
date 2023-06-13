@@ -7,7 +7,13 @@
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    --primary: 270 69% 40%;
+    --primary-foreground: 222.2 47.4% 98.8%;
+
+    --secondary: 295 69% 45%;
+    --secondary-foreground: 222.2 47.4% 98.8%;
+
+    --destructive: 8 92% 46%;
+    --destructive-foreground: 222.2 47.4% 98.8%;
   }
 }

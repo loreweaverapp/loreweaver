@@ -7,19 +7,17 @@
  * need to use are documented accordingly near the end.
  */
 
-import {experimental_createServerActionHandler} from "@trpc/next/app-dir/server";
 import {initTRPC, TRPCError} from "@trpc/server";
-import {cookies, headers} from "next/headers";
 import superjson from "superjson";
 import {ZodError} from "zod";
 import {getAuth, signedOutAuthObject} from "@clerk/nextjs/server";
 import {NextRequest} from "next/server";
 import {type PrismaClient} from "@prisma/client";
-import {auth} from "@clerk/nextjs";
 import {prisma as globalPrisma} from "../db";
+import type * as http from "http";
 import type {AuthObject} from "@clerk/nextjs/server";
 import type {RequestLike} from "@clerk/nextjs/dist/types/server/types";
-import type {FetchCreateContextFnOptions} from "@trpc/server/adapters/fetch";
+import type {CreateNextContextOptions} from "@trpc/server/adapters/next";
 import type {SecretKeyOrApiKey} from "@clerk/types";
 
 type GetAuthOpts = Partial<SecretKeyOrApiKey>;
@@ -42,7 +40,7 @@ function createAuthObject(req?: RequestLike | Request, opts?: GetAuthOpts) {
  */
 
 type CreateContextOptions = {
-    headers: Headers;
+    headers: http.IncomingHttpHeaders;
     prisma?: PrismaClient;
     auth?: AuthObject;
 };
@@ -71,9 +69,8 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
     // Fetch stuff that depends on the request
-    console.log("createTRPCConext userId", createAuthObject(opts.req).userId);
     return createInnerTRPCContext({
         headers: opts.req.headers,
         prisma: globalPrisma,
@@ -102,22 +99,6 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
                         : null,
             },
         };
-    },
-});
-
-/**
- * Helper to create validated server actions from trpc procedures, or build inline actions using the
- * reusable procedure builders.
- */
-export const createAction = experimental_createServerActionHandler(t, {
-    createContext() {
-        console.log("Server action userId", auth().userId);
-        const ctx = createInnerTRPCContext({
-            headers: headers(),
-            prisma: globalPrisma,
-            auth: auth(),
-        });
-        return ctx;
     },
 });
 

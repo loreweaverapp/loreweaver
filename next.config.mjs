@@ -13,5 +13,6 @@ const config = {
             destination: "/users/:username",
         },
     ],
+    pageExtensions: ["page.ts", "page.tsx"],
 };
 export default config;
