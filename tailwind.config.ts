@@ -5,6 +5,14 @@ import animatePlugin from "tailwindcss-animate";
 export default {
     content: ["./src/**/*.tsx"],
     theme: {
+        borderRadius: {
+            none: "0",
+            sm: "0.25rem",
+            DEFAULT: "0.375rem",
+            md: "0.375rem",
+            lg: "0.5rem",
+            full: "9999px",
+        },
         container: {
             center: true,
             padding: "2rem",

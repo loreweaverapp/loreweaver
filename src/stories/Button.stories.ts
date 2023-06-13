@@ -11,43 +11,13 @@ const meta: Meta<typeof Button> = {
             defaultValue: "Button",
         },
         variant: {
-            defaultValue: "primary",
-            type: {
-                name: "enum",
-                value: [
-                    "primary",
-                    "secondary",
-                    "destructive",
-                    "outline",
-                    "ghost",
-                    "link",
-                ],
-                required: true,
-            },
-            control: {
-                type: "select",
-                required: true,
+            mapping: {
+                null: undefined,
             },
         },
         size: {
-            defaultValue: "md",
-            type: {
-                name: "enum",
-                value: ["sm", "md", "lg"],
-                required: true,
-            },
-            control: {
-                type: "radio",
-            },
-        },
-        asChild: {
-            defaultValue: false,
-            type: {
-                name: "boolean",
-                required: true,
-            },
-            control: {
-                type: "boolean",
+            mapping: {
+                null: undefined,
             },
         },
     },
@@ -58,7 +28,7 @@ type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
     args: {
-        children: "Button",
+        children: "button",
     },
 };
 
@@ -66,49 +36,49 @@ export const Primary: Story = {
     name: "Primary (Default)",
     args: {
         variant: "primary",
-        children: "Create Item",
+        children: "create item",
     },
 };
 
 export const Secondary: Story = {
     args: {
         variant: "secondary",
-        children: "Edit Item",
+        children: "edit item",
     },
 };
 
 export const Destructive: Story = {
     args: {
         variant: "destructive",
-        children: "Delete Item",
+        children: "delete item",
     },
 };
 
 export const Outline: Story = {
     args: {
         variant: "outline",
-        children: "Copy Item",
+        children: "copy item",
     },
 };
 
 export const Ghost: Story = {
     args: {
         variant: "ghost",
-        children: "Select Item",
+        children: "select item",
     },
 };
 
 export const Link: Story = {
     args: {
         variant: "link",
-        children: "View Item",
+        children: "view item",
     },
 };
 
 export const Small: Story = {
     args: {
         size: "sm",
-        children: "Small",
+        children: "small",
     },
 };
 
@@ -116,13 +86,13 @@ export const Medium: Story = {
     name: "Medium (Default)",
     args: {
         size: "md",
-        children: "Medium",
+        children: "medium",
     },
 };
 
 export const Large: Story = {
     args: {
         size: "lg",
-        children: "Large",
+        children: "large",
     },
 };
