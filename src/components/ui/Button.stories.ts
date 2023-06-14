@@ -1,7 +1,6 @@
 import {type Meta, type StoryObj} from "@storybook/react";
-import {Button} from "../components/ui/Button";
+import {Button} from "./Button";
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof Button> = {
     title: "Components/UI/Button",
     component: Button,
@@ -9,16 +8,6 @@ const meta: Meta<typeof Button> = {
     argTypes: {
         children: {
             defaultValue: "Button",
-        },
-        variant: {
-            mapping: {
-                null: undefined,
-            },
-        },
-        size: {
-            mapping: {
-                null: undefined,
-            },
         },
     },
 };

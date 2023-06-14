@@ -3,14 +3,16 @@ import {fontFamily} from "tailwindcss/defaultTheme";
 import animatePlugin from "tailwindcss-animate";
 
 export default {
+    darkMode: ["class"],
     content: ["./src/**/*.tsx"],
     theme: {
         borderRadius: {
             none: "0",
-            sm: "0.25rem",
+            sm: "0.125rem",
             DEFAULT: "0.375rem",
             md: "0.375rem",
-            lg: "0.5rem",
+            lg: "0.75rem",
+            xl: "2rem",
             full: "9999px",
         },
         container: {
@@ -21,6 +23,9 @@ export default {
             },
         },
         extend: {
+            boxShadow: {
+                xs: "0 1px 1px 0 rgb(0, 0, 0 / 0.05)",
+            },
             fontFamily: {
                 sans: ["var(--font-sans)", ...fontFamily.sans],
             },

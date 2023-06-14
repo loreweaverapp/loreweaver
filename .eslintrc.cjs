@@ -58,7 +58,7 @@ const config = {
                     },
                 ],
                 "@typescript-eslint/no-misused-promises": [
-                    2,
+                    "error",
                     {
                         checksVoidReturn: {
                             attributes: false,
@@ -66,6 +66,14 @@ const config = {
                     },
                 ],
                 "@typescript-eslint/no-non-null-assertion": "off",
+                "@typescript-eslint/naming-convention": [
+                    "warn",
+                    {
+                        selector: "default",
+                        format: ["camelCase", "PascalCase", "UPPER_CASE"],
+                        leadingUnderscore: "allow",
+                    },
+                ],
             },
             settings: {
                 "import/parsers": {
@@ -95,6 +103,16 @@ const config = {
         {
             files: ["*.tsx"],
             extends: ["airbnb-typescript"],
+            rules: {
+                "@typescript-eslint/naming-convention": [
+                    "warn",
+                    {
+                        selector: "default",
+                        format: ["camelCase", "PascalCase", "UPPER_CASE"],
+                        leadingUnderscore: "allow",
+                    },
+                ],
+            }
         },
         // Global override to ensure Prettier is the highest priority
         {
@@ -122,6 +140,7 @@ const config = {
                             "**/*.e2e-spec.ts",
                             "**/jest.config.*",
                             "**/next.config.js",
+                            "**/*.stories.ts",
                         ],
                     },
                 ],

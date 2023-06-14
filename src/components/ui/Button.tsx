@@ -1,33 +1,50 @@
 import * as React from "react";
-import {Slot} from "@radix-ui/react-slot";
+import {type ElementType, forwardRef, type ReactElement} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
-import {type ButtonHTMLAttributes, forwardRef} from "react";
 import {cn} from "$/lib/cn";
+import {type RemoveValues} from "../../lib/types";
+import {
+    type PolymorphicComponentPropsWithRef,
+    type PolymorphicRef,
+} from "../../lib/polymorphic";
 
-const buttonVariants = cva(
-    "inline-flex items-center justify-center rounded text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background capitalize",
+export const buttonVariants = cva(
+    "inline-flex items-center justify-center rounded text-sm font-normal " +
+        "transition-colors focus-visible:outline-none focus-visible:ring-2 " +
+        "focus-visible:ring-ring focus-visible:ring-offset-2" +
+        "disabled:opacity-50 disabled:pointer-events-none " +
+        "ring-offset-background capitalize py-1 border-none shadow-sm shadow-black active:shadow-none",
     {
         variants: {
             variant: {
                 primary:
-                    "bg-primary text-primary-foreground hover:bg-primary/80 uppercase active:translate-y-[1px] select-none",
+                    "bg-primary text-primary-foreground hover:bg-primary/80 " +
+                    "active:translate-y-[2px] select-none border shadow-primary",
                 secondary:
-                    "bg-secondary text-secondary-foreground hover:bg-secondary/70 uppercase active:translate-y-[1px] select-none",
+                    "bg-secondary text-secondary-foreground " +
+                    "hover:bg-secondary/80 " +
+                    "active:translate-y-[2px] select-none border shadow-secondary",
                 destructive:
-                    "bg-destructive text-destructive-foreground hover:bg-destructive/80 active:translate-y-[1px] select-none",
+                    "bg-destructive text-destructive-foreground font-bold " +
+                    "hover:bg-destructive/80 active:translate-y-[2px] " +
+                    "select-none uppercase border shadow-destructive",
                 outline:
-                    "border border-input hover:bg-accent hover:text-accent-foreground active:translate-y-[1px] select-none",
-                ghost: "hover:bg-accent hover:text-accent-foreground active:translate-y-[1px] select-none",
-                link: "underline-offset-4 hover:underline text-primary",
+                    "border border-primary border-solid hover:bg-accent " +
+                    "hover:text-accent-foreground active:translate-y-[2px] " +
+                    "select-none shadow-primary text-primary",
+                ghost:
+                    "hover:bg-accent hover:text-accent-foreground " +
+                    "active:translate-y-[2px] select-none shadow-none",
+                link: "underline-offset-4 hover:underline text-primary shadow-none",
             },
             size: {
                 sm: "h-9",
-                md: "h-10",
-                lg: "h-11",
+                md: "h-10 text-md",
+                lg: "h-11 text-lg",
             },
             compact: {
                 true: "",
-                false: "",
+                false: "py-2",
             },
         },
         compoundVariants: [
@@ -37,14 +54,29 @@ const buttonVariants = cva(
                 className: "px-3",
             },
             {
+                compact: true,
+                size: "sm",
+                className: "h-5 px-1",
+            },
+            {
                 compact: false,
                 size: "md",
-                className: "px-4 py-2",
+                className: "px-4",
+            },
+            {
+                compact: true,
+                size: "md",
+                className: "h-6 px-2",
             },
             {
                 compact: false,
                 size: "lg",
                 className: "px-8",
+            },
+            {
+                compact: true,
+                size: "lg",
+                className: "h-7 px-3",
             },
         ],
         defaultVariants: {
@@ -55,23 +87,34 @@ const buttonVariants = cva(
     },
 );
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
-    VariantProps<typeof buttonVariants> & {
-        asChild?: boolean;
-    };
+type ButtonBaseProps = {};
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({className, variant, size, asChild = false, ...props}, ref) => {
-        const Comp = asChild ? Slot : "button";
-        return (
-            <Comp
-                className={cn(buttonVariants({variant, size, className}))}
-                ref={ref}
-                {...props}
-            />
-        );
-    },
-);
-Button.displayName = "Button";
+type ButtonVariantProps = RemoveValues<
+    VariantProps<typeof buttonVariants>,
+    null,
+    "variant" | "size" | "compact"
+>;
 
-export {Button, buttonVariants};
+export type ButtonProps<C extends ElementType> =
+    PolymorphicComponentPropsWithRef<C, ButtonVariantProps & ButtonBaseProps>;
+
+type ButtonComponent = <C extends ElementType = "button">(
+    props: ButtonProps<C>,
+) => ReactElement | null;
+
+function _Button<C extends ElementType = "button">(
+    {className, as, variant, size, compact = false, ...props}: ButtonProps<C>,
+    ref?: PolymorphicRef<C>,
+) {
+    const Component = as ?? "button";
+
+    return (
+        <Component
+            className={cn(buttonVariants({variant, size, compact, className}))}
+            ref={ref}
+            {...props}
+        />
+    );
+}
+
+export const Button = forwardRef(_Button) as ButtonComponent;
