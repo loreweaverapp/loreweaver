@@ -12,6 +12,12 @@ const meta: Meta<typeof Input> = {
                 defaultValue: "Hello, world!",
             },
         },
+        placeholder: {
+            control: {
+                type: "text",
+                defaultValue: "Placeholder",
+            },
+        },
     },
 };
 

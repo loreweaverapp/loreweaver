@@ -11,6 +11,20 @@ const preview: Preview = {
                 date: /Date$/,
             },
         },
+        backgrounds: {
+            default: "Dark",
+            values: [
+                {
+                    name: "Dark",
+                    value: "hsl(var(--background))",
+                }
+            ]
+        }
+    },
+    globalTypes: {
+        darkMode: {
+            defaultValue: true,
+        },
     },
 };
 

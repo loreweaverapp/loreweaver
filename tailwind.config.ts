@@ -3,7 +3,7 @@ import {fontFamily} from "tailwindcss/defaultTheme";
 import animatePlugin from "tailwindcss-animate";
 
 export default {
-    darkMode: ["class"],
+    darkMode: "class",
     content: ["./src/**/*.tsx"],
     theme: {
         borderRadius: {

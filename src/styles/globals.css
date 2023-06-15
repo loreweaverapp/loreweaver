@@ -7,15 +7,16 @@
     --background: 269 71% 2%;
     --foreground: 213 31% 91%;
 
-    --primary: 275 69% 45%;
+    --primary: 260 75% 50%;
     --primary-foreground: 222.2 47.4% 98.8%;
 
-    --secondary: 260 63% 34%;
+    --secondary: 275 59% 40%;
     --secondary-foreground: 222.2 47.4% 98.8%;
 
     --destructive: 8 92% 46%;
     --destructive-foreground: 222.2 47.4% 98.8%;
 
+    --text-muted-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 

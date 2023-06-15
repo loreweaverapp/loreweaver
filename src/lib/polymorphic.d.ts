@@ -5,21 +5,18 @@ import {
     type ElementType,
     type PropsWithChildren,
 } from "react";
-import type React from "react";
 
 export type PolymorphicRef<C extends ElementType> =
     ComponentPropsWithRef<C>["ref"];
 
-export type AsProp<C extends React.ElementType> = {
-    as?: C;
-};
+export type PropsWithAs<C extends ElementType, P> = {as?: C} & P;
 
-type PropsToOmit<C extends ElementType, P> = keyof (AsProp<C> & P);
+type PropsToOmit<C extends ElementType, P> = keyof PropsWithAs<C, P>;
 
 export type PolymorphicComponentProps<
     C extends ElementType,
     Props = {},
-> = PropsWithChildren<Props & AsProp<C>> &
+> = PropsWithChildren<PropsWithAs<C, Props>> &
     Omit<ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
 
 export type PolymorphicComponentPropsWithRef<

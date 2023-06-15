@@ -9,32 +9,19 @@ import {
 } from "../../lib/polymorphic";
 
 export const buttonVariants = cva(
-    "inline-flex items-center justify-center rounded text-sm font-normal " +
-        "transition-colors focus-visible:outline-none focus-visible:ring-2 " +
-        "focus-visible:ring-ring focus-visible:ring-offset-2" +
-        "disabled:opacity-50 disabled:pointer-events-none " +
-        "ring-offset-background capitalize py-1 border-none shadow-sm shadow-black active:shadow-none",
+    "inline-flex items-center justify-center rounded text-sm font-normal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2disabled:opacity-50 disabled:pointer-events-none ring-offset-background capitalize py-1 border-none shadow-sm shadow-black active:shadow-none",
     {
         variants: {
             variant: {
                 primary:
-                    "bg-primary text-primary-foreground hover:bg-primary/80 " +
-                    "active:translate-y-[2px] select-none border shadow-primary",
+                    "bg-primary text-primary-foreground hover:bg-primary/80 active:translate-y-[2px] select-none border shadow-primary",
                 secondary:
-                    "bg-secondary text-secondary-foreground " +
-                    "hover:bg-secondary/80 " +
-                    "active:translate-y-[2px] select-none border shadow-secondary",
+                    "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:translate-y-[2px] select-none border shadow-secondary",
                 destructive:
-                    "bg-destructive text-destructive-foreground font-bold " +
-                    "hover:bg-destructive/80 active:translate-y-[2px] " +
-                    "select-none uppercase border shadow-destructive",
+                    "bg-destructive text-destructive-foreground font-bold hover:bg-destructive/80 active:translate-y-[2px] select-none uppercase border shadow-destructive",
                 outline:
-                    "border border-primary border-solid hover:bg-accent " +
-                    "hover:text-accent-foreground active:translate-y-[2px] " +
-                    "select-none shadow-primary text-primary",
-                ghost:
-                    "hover:bg-accent hover:text-accent-foreground " +
-                    "active:translate-y-[2px] select-none shadow-none",
+                    "border border-primary border-solid hover:bg-accent hover:text-accent-foreground active:translate-y-[2px] select-none shadow-primary text-primary",
+                ghost: "hover:bg-accent hover:text-accent-foreground active:translate-y-[2px] select-none shadow-none",
                 link: "underline-offset-4 hover:underline text-primary shadow-none",
             },
             size: {
@@ -98,10 +85,6 @@ type ButtonVariantProps = RemoveValues<
 export type ButtonProps<C extends ElementType> =
     PolymorphicComponentPropsWithRef<C, ButtonVariantProps & ButtonBaseProps>;
 
-type ButtonComponent = <C extends ElementType = "button">(
-    props: ButtonProps<C>,
-) => ReactElement | null;
-
 function _Button<C extends ElementType = "button">(
     {className, as, variant, size, compact = false, ...props}: ButtonProps<C>,
     ref?: PolymorphicRef<C>,
@@ -116,5 +99,9 @@ function _Button<C extends ElementType = "button">(
         />
     );
 }
+
+type ButtonComponent = <C extends ElementType = "button">(
+    props: ButtonProps<C>,
+) => ReactElement | null;
 
 export const Button = forwardRef(_Button) as ButtonComponent;

@@ -9,10 +9,10 @@ export default function WelcomePage() {
                 Welcome to Lore Weaver!
             </Heading>
             <div className="flex flex-row-reverse gap-5">
-                <Button as={Link} variant="primary" href="/sign-up">
+                <Button as={Link} variant="primary" size="lg" href="/sign-up">
                     sign up
                 </Button>
-                <Button as={Link} variant="secondary" href="/sign-in">
+                <Button variant="secondary" size="lg">
                     sign in
                 </Button>
             </div>
