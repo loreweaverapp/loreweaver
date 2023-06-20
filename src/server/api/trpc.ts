@@ -7,13 +7,29 @@
  * need to use are documented accordingly near the end.
  */
 
-import {experimental_createServerActionHandler} from "@trpc/next/app-dir/server";
-import {initTRPC} from "@trpc/server";
-import {type FetchCreateContextFnOptions} from "@trpc/server/adapters/fetch";
-import {headers} from "next/headers";
+import {initTRPC, TRPCError} from "@trpc/server";
 import superjson from "superjson";
 import {ZodError} from "zod";
-import {db} from "$/server/db";
+import {getAuth, signedOutAuthObject} from "@clerk/nextjs/server";
+import {NextRequest} from "next/server";
+import {type PrismaClient} from "@prisma/client";
+import {prisma as globalPrisma} from "../db";
+import type * as http from "http";
+import type {AuthObject} from "@clerk/nextjs/server";
+import type {RequestLike} from "@clerk/nextjs/dist/types/server/types";
+import type {CreateNextContextOptions} from "@trpc/server/adapters/next";
+import type {SecretKeyOrApiKey} from "@clerk/types";
+
+type GetAuthOpts = Partial<SecretKeyOrApiKey>;
+
+function createAuthObject(req?: RequestLike | Request, opts?: GetAuthOpts) {
+    if (req) {
+        const request = req instanceof Request ? new NextRequest(req) : req;
+        return getAuth(request, opts);
+    }
+
+    return signedOutAuthObject();
+}
 
 /**
  * 1. CONTEXT
@@ -24,7 +40,9 @@ import {db} from "$/server/db";
  */
 
 type CreateContextOptions = {
-    headers: Headers;
+    headers: http.IncomingHttpHeaders;
+    prisma?: PrismaClient;
+    auth?: AuthObject;
 };
 
 /**
@@ -40,7 +58,8 @@ type CreateContextOptions = {
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
     return {
         headers: opts.headers,
-        db,
+        prisma: opts.prisma ?? globalPrisma,
+        auth: opts.auth ?? createAuthObject(),
     };
 };
 
@@ -50,11 +69,12 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: FetchCreateContextFnOptions) => {
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
     // Fetch stuff that depends on the request
-
     return createInnerTRPCContext({
         headers: opts.req.headers,
+        prisma: globalPrisma,
+        auth: createAuthObject(opts.req),
     });
 };
 
@@ -82,17 +102,16 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
     },
 });
 
-/**
- * Helper to create validated server actions from trpc procedures, or build inline actions using the
- * reusable procedure builders.
- */
-export const createAction = experimental_createServerActionHandler(t, {
-    createContext() {
-        const ctx = createInnerTRPCContext({
-            headers: headers(),
-        });
-        return ctx;
-    },
+const isAuthed = t.middleware(({next, ctx}) => {
+    if (!ctx.auth.userId) {
+        throw new TRPCError({code: "UNAUTHORIZED"});
+    }
+
+    return next({
+        ctx: {
+            auth: ctx.auth,
+        },
+    });
 });
 
 /**
@@ -117,3 +136,5 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+export const protectedProcedure = t.procedure.use(isAuthed);

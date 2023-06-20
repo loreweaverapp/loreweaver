@@ -4,7 +4,11 @@ const path = require("path");
 /** @type {import("eslint").Linter.Config} */
 const config = {
     root: true,
-    extends: ["eslint:recommended", "airbnb-base"],
+    extends: [
+        "eslint:recommended",
+        "airbnb-base",
+        "plugin:storybook/recommended",
+    ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         project: path.join(__dirname, "tsconfig.json"),
@@ -28,7 +32,9 @@ const config = {
                 "@typescript-eslint/ban-types": "off",
                 "@typescript-eslint/no-empty-function": [
                     "error",
-                    {allow: ["constructors"]},
+                    {
+                        allow: ["constructors"],
+                    },
                 ],
                 "@typescript-eslint/no-unsafe-assignment": "off",
                 "@typescript-eslint/no-unsafe-call": "off",
@@ -47,12 +53,25 @@ const config = {
                 ],
                 "@typescript-eslint/no-unused-vars": [
                     "warn",
-                    {argsIgnorePattern: "^_"},
+                    {
+                        argsIgnorePattern: "^_",
+                    },
                 ],
                 "@typescript-eslint/no-misused-promises": [
-                    2,
+                    "error",
                     {
-                        checksVoidReturn: {attributes: false},
+                        checksVoidReturn: {
+                            attributes: false,
+                        },
+                    },
+                ],
+                "@typescript-eslint/no-non-null-assertion": "off",
+                "@typescript-eslint/naming-convention": [
+                    "warn",
+                    {
+                        selector: "default",
+                        format: ["camelCase", "PascalCase", "UPPER_CASE"],
+                        leadingUnderscore: "allow",
                     },
                 ],
             },
@@ -84,6 +103,16 @@ const config = {
         {
             files: ["*.tsx"],
             extends: ["airbnb-typescript"],
+            rules: {
+                "@typescript-eslint/naming-convention": [
+                    "warn",
+                    {
+                        selector: "default",
+                        format: ["camelCase", "PascalCase", "UPPER_CASE"],
+                        leadingUnderscore: "allow",
+                    },
+                ],
+            }
         },
         // Global override to ensure Prettier is the highest priority
         {
@@ -111,6 +140,7 @@ const config = {
                             "**/*.e2e-spec.ts",
                             "**/jest.config.*",
                             "**/next.config.js",
+                            "**/*.stories.ts",
                         ],
                     },
                 ],
