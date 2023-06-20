@@ -6,6 +6,8 @@ import {type AfterAuthResult} from "./middleware";
 
 export default authMiddleware({
     publicRoutes: ["/", "/welcome", "/finish-sign-up"],
+    debug: true,
+    clockSkewInSeconds: 60,
     async afterAuth(auth, req, evt) {
         // Try each section one by one starting at the top.
         // If any of the sections produce a result, return it, and skip the rest of the sections.
@@ -13,14 +15,16 @@ export default authMiddleware({
         //   then return NextResponse.next().
         const result = await afterAuthSections.reduce(
             async (prevResult, {route, handler}) => {
-                if (prevResult || !matchSection(req, route)) {
-                    return prevResult;
+                const prevResultResolved = await prevResult;
+                if (prevResultResolved || !matchSection(req, route)) {
+                    return prevResultResolved;
                 }
 
                 return handler(auth, req, evt);
             },
             undefined as AfterAuthResult,
         );
+
         return result ?? NextResponse.next();
     },
 });

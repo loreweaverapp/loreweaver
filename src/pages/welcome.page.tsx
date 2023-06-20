@@ -1,21 +1,20 @@
 import Link from "next/link";
-import {Button} from "../components/ui/Button";
-import {Heading} from "../components/ui/Heading";
+import {Button, Center, Container, Stack, Title} from "@mantine/core";
 
 export default function WelcomePage() {
     return (
-        <main className="flex flex-col items-center justify-center gap-5 p-10">
-            <Heading level={1} size="3xl">
-                Welcome to Lore Weaver!
-            </Heading>
-            <div className="flex flex-row-reverse gap-5">
-                <Button as={Link} variant="primary" size="lg" href="/sign-up">
+        <Stack align="center" justify="center">
+            <Center>
+                <Title order={1}>Welcome to Lore Weaver!</Title>
+            </Center>
+            <Container>
+                <Button component={Link} size="lg" href="/sign-up">
                     sign up
                 </Button>
-                <Button variant="secondary" size="lg">
+                <Button component={Link} size="lg" href="/sign-in">
                     sign in
                 </Button>
-            </div>
-        </main>
+            </Container>
+        </Stack>
     );
 }

@@ -1,9 +1,7 @@
-"use client";
-
-import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {useAuth} from "@clerk/nextjs";
+import {useForm, zodResolver} from "@mantine/form";
+import {Button, Textarea, TextInput, Title} from "@mantine/core";
 import {api} from "$/trpc/client";
 
 const formSchema = z.object({
@@ -12,9 +10,9 @@ const formSchema = z.object({
 });
 
 export function FinishSignUpForm() {
-    const {handleSubmit, register} = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
+    const form = useForm<z.infer<typeof formSchema>>({
+        validate: zodResolver(formSchema),
+        initialValues: {
             displayName: "",
             bio: "",
         },
@@ -29,7 +27,7 @@ export function FinishSignUpForm() {
 
     return (
         <form
-            onSubmit={handleSubmit((values) =>
+            onSubmit={form.onSubmit((values) =>
                 mutate({
                     userProfile: {userId},
                     data: {
@@ -38,21 +36,25 @@ export function FinishSignUpForm() {
                 }),
             )}
         >
-            <h1>Setup Your Profile</h1>
-            <h2>
+            <Title order={1}>Setup Your Profile</Title>
+            <Title order={2}>
                 You can always customize your profile later if you want to skip
                 this step now.
-            </h2>
-            <input
+            </Title>
+            <TextInput
+                label="Display Name"
                 placeholder="(Optional) Enter your display name"
-                {...register("displayName", {max: 64, required: false})}
+                {...form.getInputProps("displayName")}
             />
-            <textarea
+            <Textarea
+                label="Bio"
                 placeholder="(Optional) Write a bit about yourself..."
-                {...register("bio", {max: 256, required: false})}
+                {...form.getInputProps("bio")}
             />
-            <button type="submit">Confirm</button>
-            <button type="button">Continue to site (skip)</button>
+            <Button type="submit">Confirm</Button>
+            <Button type="button" variant="light">
+                Continue to site (skip)
+            </Button>
         </form>
     );
 }

@@ -19,6 +19,7 @@ export type AfterAuthHandler = (
 export type RouteMatcher = string | RegExp | ((req: NextRequest) => boolean);
 
 export type AfterAuthMiddlewareSection = {
+    debugName?: string;
     route: RouteMatcher;
     handler: AfterAuthHandler;
 };

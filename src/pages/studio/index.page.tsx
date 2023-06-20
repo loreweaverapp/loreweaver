@@ -1,4 +1,5 @@
 import {useUser} from "@clerk/nextjs";
+import {Title} from "@mantine/core";
 
 export default function StudioPage() {
     const {user} = useUser();
@@ -7,5 +8,5 @@ export default function StudioPage() {
         return null;
     }
 
-    return <h1>Welcome to your studio, {user.username}</h1>;
+    return <Title order={1}>Welcome to your studio, {user.username}</Title>;
 }

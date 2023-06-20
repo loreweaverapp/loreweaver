@@ -1,20 +1,61 @@
 import {type AppProps} from "next/app";
+import {MantineProvider} from "@mantine/core";
+import {ClerkProvider} from "@clerk/nextjs";
+import {Poppins} from "next/font/google";
+import {NextSeo} from "next-seo";
 import {api} from "$/trpc/client";
-import "$/styles/globals.css";
-import {StylesWrapper} from "../components/app/root/StylesWrapper";
-import {ClerkWrapper} from "../components/app/root/ClerkWrapper";
+import {emotionCache} from "../styles/emotionCache";
 
-export type AppPageProps = any;
+const sansFont = Poppins({
+    subsets: ["latin"],
+    display: "swap",
+    style: ["normal", "italic"],
+    weight: ["400", "700"],
+    variable: "--font-sans",
+});
 
-function CustomApp(appProps: AppProps<AppPageProps>) {
+function CustomApp(appProps: AppProps) {
     const {Component, pageProps} = appProps;
 
     return (
-        <ClerkWrapper pageProps={pageProps}>
-            <StylesWrapper>
+        <MantineProvider
+            emotionCache={emotionCache}
+            withNormalizeCSS
+            withCSSVariables
+            withGlobalStyles
+            theme={{
+                colorScheme: "dark",
+                respectReducedMotion: true,
+                defaultRadius: "md",
+                primaryColor: "grape",
+                globalStyles: () => ({
+                    body: {
+                        ...sansFont.style,
+                    },
+                }),
+                components: {
+                    Button: {
+                        styles: () => ({
+                            label: {
+                                textTransform: "capitalize",
+                            },
+                        }),
+                    },
+                },
+            }}
+        >
+            <ClerkProvider {...pageProps}>
+                <NextSeo
+                    additionalMetaTags={[
+                        {
+                            name: "viewport",
+                            content: "width=device-width, initial-scale=1.0",
+                        },
+                    ]}
+                />
                 <Component {...pageProps} />
-            </StylesWrapper>
-        </ClerkWrapper>
+            </ClerkProvider>
+        </MantineProvider>
     );
 }
 

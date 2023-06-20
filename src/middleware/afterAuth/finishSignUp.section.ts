@@ -5,6 +5,7 @@ import {generateDate} from "$/server/lib/date";
 import {type AfterAuthMiddlewareSection} from "..";
 
 export const finishSignUpSection: AfterAuthMiddlewareSection = {
+    debugName: "protect finish-sign-up",
     route: "/finish-sign-up",
     handler: async (auth, req) => {
         const {user} = auth;
